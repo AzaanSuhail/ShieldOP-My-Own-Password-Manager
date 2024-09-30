@@ -10,7 +10,7 @@ const Manager = () => {
   const [passwordArray, setPasswordArray] = useState([]);
 
   const getPasswords = async () => {
-    let req = await fetch("http://localhost:3000/");
+    let req = await fetch("https://shieldop-backend-f91f.onrender.com");
     let passwords = await req.json();
     setPasswordArray(passwords);
   };
@@ -26,14 +26,14 @@ const Manager = () => {
       form.password.length > 3
     ) {
       // If any such id exists in the db, delete it
-      await fetch("http://localhost:3000/", {
+      await fetch("https://shieldop-backend-f91f.onrender.com", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: form.id })
       });
 
       setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-      await fetch("http://localhost:3000/", {
+      await fetch("https://shieldop-backend-f91f.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, id: uuidv4() })
@@ -62,7 +62,7 @@ const Manager = () => {
     if (c) {
       setPasswordArray(passwordArray.filter((item) => item.id !== id));
 
-      await fetch("http://localhost:3000/", {
+      await fetch("https://shieldop-backend-f91f.onrender.com", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id })
