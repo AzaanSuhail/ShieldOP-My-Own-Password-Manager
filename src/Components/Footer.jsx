@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className='text-white bg-slate-800 flex flex-col justify-center items-center'>
+    <div className='text-white bg-slate-800 flex flex-col justify-center items-center '>
          <div className="text-2xl font-bold logo">
           <span className="text-green-400">&lt;</span>
           Shied<span className="text-green-500">OP</span>
