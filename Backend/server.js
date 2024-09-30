@@ -12,7 +12,8 @@ const client = new MongoClient(url);
 // Database Name
 const dbName = "shieldOP";
 const app = express();
-const port = process.env.PORT || `3000;
+const port = process.env.PORT || 3000;
+
 app.use(bodyparser.json());
 app.use(cors());
 client.connect();
@@ -36,7 +37,7 @@ app.post("/", async (req, res) => {
     const password = req.body;
     const db = client.db(dbName);
     const collection = db.collection("passwords");
-    
+
     // Insert the new password
     const insertResult = await collection.insertOne(password);
     res.json({ success: true, result: insertResult });
@@ -46,8 +47,6 @@ app.post("/", async (req, res) => {
   }
 });
 
-
-// delete a password
 // delete a password
 app.delete("/:id", async (req, res) => {
   try {
@@ -71,8 +70,6 @@ app.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
