@@ -10,7 +10,7 @@ const Manager = () => {
   const [passwordArray, setPasswordArray] = useState([]);
 
   const getPasswords = async () => {
-    let req = await fetch("https://shieldop-backend-f91f.onrender.com");
+    let req = await fetch("");
     let passwords = await req.json();
     setPasswordArray(passwords);
   };
