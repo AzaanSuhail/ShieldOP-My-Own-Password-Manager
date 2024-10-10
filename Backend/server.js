@@ -12,7 +12,7 @@ const client = new MongoClient(url);
 // Database Name
 const dbName = "shieldOP";
 const app = express();
-const port = process.env.PORT || 27017;
+const port = process.env.PORT || 3000;
 
 app.use(bodyparser.json());
 app.use(cors());

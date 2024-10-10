@@ -154,7 +154,6 @@ const Manager = () => {
             type="text"
             name="site"
             id="site"
-            onChange={handleChange}
           />
           <div className="flex w-full gap-8 pb-3">
             <input
