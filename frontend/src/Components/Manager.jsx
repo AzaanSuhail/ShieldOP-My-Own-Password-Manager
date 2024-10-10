@@ -26,18 +26,24 @@ const Manager = () => {
       form.password.length > 3
     ) {
       // If any such id exists in the db, delete it
-      await fetch("https://shieldop-backend-f91f.onrender.com", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: form.id })
-      });
+      await fetch(
+        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: form.id })
+        }
+      );
 
       setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-      await fetch("https://shieldop-backend-f91f.onrender.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, id: uuidv4() })
-      });
+      await fetch(
+        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, id: uuidv4() })
+        }
+      );
 
       // Otherwise clear the form and show toast
       setForm({ site: "", username: "", password: "" });
@@ -62,11 +68,14 @@ const Manager = () => {
     if (c) {
       setPasswordArray(passwordArray.filter((item) => item.id !== id));
 
-      await fetch("https://shieldop-backend-f91f.onrender.com", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id })
-      });
+      await fetch(
+        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id })
+        }
+      );
 
       toast("Password Deleted!", {
         position: "top-right",
@@ -154,6 +163,7 @@ const Manager = () => {
             type="text"
             name="site"
             id="site"
+  
           />
           <div className="flex w-full gap-8 pb-3">
             <input
