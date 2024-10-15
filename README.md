@@ -25,9 +25,5 @@
 - **Copy Password**: Use the copy functionality to quickly copy your password to the clipboard.
 - **Delete Password**: Remove unwanted passwords from your storage.
 
-## Future Enhancements
 
-- Implement encryption for stored passwords for an additional layer of security.
-- Add user authentication to allow multiple users to store passwords separately.
-- Improve UI with dark mode and advanced customization options.
 
