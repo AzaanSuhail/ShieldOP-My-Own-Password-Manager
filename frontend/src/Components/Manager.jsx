@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useRef, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-
 import "react-toastify/dist/ReactToastify.css";
+
 const Manager = () => {
   const ref = useRef();
   const passwordRef = useRef();
-  const [form, setForm] = useState({ site: "", username: "", password: "" });
+  const [form, setform] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setPasswordArray] = useState([]);
 
   const getPasswords = async () => {
-    let req = await fetch("");
+    let req = await fetch("http://localhost:3000/");
     let passwords = await req.json();
     setPasswordArray(passwords);
   };
@@ -19,6 +20,32 @@ const Manager = () => {
     getPasswords();
   }, []);
 
+  const copyText = (text) => {
+    toast("Copied to clipboard!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark"
+    });
+    navigator.clipboard.writeText(text);
+  };
+
+  const showPassword = () => {
+    passwordRef.current.type = "text";
+    console.log(ref.current.src);
+    if (ref.current.src.includes("icons/eyecross.png")) {
+      ref.current.src = "icons/eye.png";
+      passwordRef.current.type = "password";
+    } else {
+      passwordRef.current.type = "text";
+      ref.current.src = "icons/eyecross.png";
+    }
+  };
+
   const savePassword = async () => {
     if (
       form.site.length > 3 &&
@@ -26,27 +53,21 @@ const Manager = () => {
       form.password.length > 3
     ) {
       // If any such id exists in the db, delete it
-      await fetch(
-        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: form.id })
-        }
-      );
+      await fetch("http://localhost:3000/", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: form.id })
+      });
 
       setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-      await fetch(
-        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...form, id: uuidv4() })
-        }
-      );
+      await fetch("http://localhost:3000/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, id: uuidv4() })
+      });
 
       // Otherwise clear the form and show toast
-      setForm({ site: "", username: "", password: "" });
+      setform({ site: "", username: "", password: "" });
       toast("Password saved!", {
         position: "top-right",
         autoClose: 5000,
@@ -68,14 +89,11 @@ const Manager = () => {
     if (c) {
       setPasswordArray(passwordArray.filter((item) => item.id !== id));
 
-      await fetch(
-        "https://shieldop-my-own-password-manager-azaan-ndwb.onrender.com",
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id })
-        }
-      );
+      await fetch("http://localhost:3000/", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
 
       toast("Password Deleted!", {
         position: "top-right",
@@ -90,121 +108,79 @@ const Manager = () => {
   };
 
   const editPassword = (id) => {
-    setForm({ ...passwordArray.filter((i) => i.id === id)[0], id: id });
+    setform({ ...passwordArray.filter((i) => i.id === id)[0], id: id });
     setPasswordArray(passwordArray.filter((item) => item.id !== id));
   };
 
-  const showPassword = () => {
-    passwordRef.current.type = "text";
-    if (ref.current.src.includes("icons/eyecross.png")) {
-      ref.current.src = "icons/eye.png";
-      passwordRef.current.type = "password";
-    } else {
-      passwordRef.current.type = "text";
-      ref.current.src = "icons/eyecross.png";
-    }
-  };
-
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const copyText = (text) => {
-    toast("Copied to clipboard!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light"
-    });
-    navigator.clipboard.writeText(text);
+    setform({ ...form, [e.target.name]: e.target.value });
   };
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition="Bounce"
-      />
-      {/* Same as */}
       <ToastContainer />
-
-      <div className="w-full absolute top-0  h-full bg-white -z-10">
-        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(114,200,130,0.5)] opacity-50 blur-[80px]"></div>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div>
       </div>
-      <div className=" p-3 md:mycontainer min-h-[88.2vh]">
-        <h1 className="text-4xl font-bold text-center" w-32>
-          <span className="text-green-500">&lt;</span>
-          Shied<span className="text-green-500">OP</span>
-          <span className="text-green-500">/&gt;</span>
+      <div className=" p-3 md:mycontainer min-h-[88.2vh] ">
+        <h1 className="text-4xl text font-bold text-center">
+          <span className="text-green-500"> &lt;</span>
+
+          <span>Shield</span>
+          <span className="text-green-500">OP/&gt;</span>
         </h1>
-        <p className="text-lg text-center tw-32ext-green-900">
+        <p className="text-green-900 text-lg text-center">
           Your own Password Manager
         </p>
 
-        <div className="flex flex-col p-4 text-black gap-6 items-center">
+        <div className="flex flex-col p-4 text-black gap-8 items-center">
           <input
-            onChange={handleChange}
             value={form.site}
-            placeholder="Enter Website URL"
-            className="w-full p-4 py-1 border border-green-500 rounded-full"
+            onChange={handleChange}
+            placeholder="Enter website URL"
+            className="rounded-full border border-green-500 w-full p-4 py-1"
             type="text"
             name="site"
             id="site"
-  
           />
-          <div className="flex w-full gap-8 pb-3">
+          <div className="flex flex-col md:flex-row w-full justify-between gap-8">
             <input
               value={form.username}
-              placeholder="Enter user name"
-              className="w-full p-4  border py-1 border-green-500 rounded-full "
+              onChange={handleChange}
+              placeholder="Enter Username"
+              className="rounded-full border border-green-500 w-full p-4 py-1"
               type="text"
               name="username"
               id="username"
-              onChange={handleChange}
             />
-
-            <div className="relative flex flex-col md:flex-row w-full justify-between gap-6">
+            <div className="relative">
               <input
                 ref={passwordRef}
                 value={form.password}
+                onChange={handleChange}
                 placeholder="Enter Password"
-                className="w-full p-4 py-1 border border-green-500 rounded-full"
+                className="rounded-full border border-green-500 w-full p-4 py-1"
                 type="password"
                 name="password"
                 id="password"
-                onChange={handleChange}
               />
               <span
-                className="absolute right-[3px] top-[3px] cursor-pointer"
+                className="absolute right-[3px] top-[4px] cursor-pointer"
                 onClick={showPassword}
               >
                 <img
                   ref={ref}
-                  className="p-1 "
+                  className="p-1"
+                  width={26}
                   src="icons/eye.png"
                   alt="eye"
-                  width={26}
                 />
               </span>
             </div>
           </div>
-
           <button
             onClick={savePassword}
-            className="flex items-center justify-center gap-2 px-8 py-2 font-bold bg-green-400 border border-green-900 rounded-full hover:bg-green-300"
+            className="flex justify-center items-center gap-2 bg-green-400 hover:bg-green-300 rounded-full px-8 py-2 w-fit border border-green-900"
           >
             <lord-icon
               src="https://cdn.lordicon.com/jgnvfzqg.json"
