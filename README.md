@@ -18,33 +18,6 @@
 - **Database**: MongoDB (local instance)
 - **API**: RESTful API for handling password-related operations
 
-## Installation
-
-Follow these steps to set up the project locally:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YourUsername/shieldop-password-manager.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd shieldop-password-manager
-   ```
-3. Install the necessary dependencies:
-   ```bash
-   npm install
-   ```
-4. Set up MongoDB on your machine (or use MongoDB Atlas for cloud storage).
-5. Start the backend server:
-   ```bash
-   npm run server
-   ```
-6. Start the frontend:
-   ```bash
-   npm start
-   ```
-7. Open your browser and go to **http://localhost:3000** to access the password manager app.
-
 ## Usage
 
 - **Add a New Password**: Enter your password details and save them securely.
