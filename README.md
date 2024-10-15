@@ -18,14 +18,6 @@
 - **Database**: MongoDB (local instance)
 - **API**: RESTful API for handling password-related operations
 
-## UI Preview
-
-Here's a preview of the user interface:
-
-![UI Screenshot](path-to-screenshot)  `<!-- Replace with actual screenshot path -->`
-
-The UI is built for simplicity and efficiency, making it easy to manage your passwords with minimal effort.
-
 ## Installation
 
 Follow these steps to set up the project locally:
